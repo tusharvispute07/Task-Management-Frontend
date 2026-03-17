@@ -1,4 +1,6 @@
 import React from 'react';
+import Modal from '@/components/ui/Modal';
+import ProjectModal from '@/components/project/ProjectModal';
 
 export default function ProjectsPage() {
     const projects = [
@@ -144,6 +146,13 @@ export default function ProjectsPage() {
                     </div>
                 ))}
             </div>
+
+            <Modal>
+                <ProjectModal />
+            </Modal>
+
         </div>
+
+
     );
 }
