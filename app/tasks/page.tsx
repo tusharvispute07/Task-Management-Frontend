@@ -1,4 +1,9 @@
+'use client'
+
 import React from "react";
+import Modal from "@/components/ui/Modal";
+import TaskForm from "@/components/task/TaskForm";
+import { Button } from "@/components/ui/button";
 
 export default function TasksPage() {
     const tasks = [
@@ -77,11 +82,12 @@ export default function TasksPage() {
                     <p className="mt-1">Manage and track all your tasks.</p>
                 </div>
 
-                <div>
-                    <button className="px-4 py-2 bg-blue-600 text-white rounded-md text-sm">
-                        New Task
-                    </button>
-                </div>
+                <Modal
+                    trigger={<Button className="px-4 py-2 bg-blue-600 hover:bg-black text-white rounded-md text-sm transition-colors">New Task</Button>}
+                    title="Create Task"
+                >
+                    <TaskForm />
+                </Modal>
             </div>
 
             {/* Table */}
@@ -99,53 +105,58 @@ export default function TasksPage() {
                 {/* Table Rows */}
                 <div className="space-y-1">
                     {tasks.map((task) => (
-                        <div
+                        <Modal
                             key={task.id}
-                            className="grid grid-cols-6 items-center p-2 rounded-md text-sm hover:bg-gray-100"
-                        >
-                            <div>{task.title}</div>
+                            trigger={
+                                <div className="grid grid-cols-6 items-center p-2 rounded-md text-sm hover:bg-gray-100 cursor-pointer transition-transform active:scale-[0.99] w-full text-left">
+                                    <div>{task.title}</div>
 
-                            <div className="text-center">{task.project}</div>
+                                    <div className="text-center">{task.project}</div>
 
-                            {/* Status */}
-                            <div className="text-center">
-                                <span
-                                    className={`px-2 py-1 rounded-md text-xs font-medium
-                                    ${task.status === "Done"
-                                            ? "bg-green-100 text-green-700"
-                                            : task.status === "In Progress"
-                                                ? "bg-blue-100 text-blue-700"
-                                                : "bg-gray-100 text-gray-700"
-                                        }`}
-                                >
-                                    {task.status}
-                                </span>
-                            </div>
+                                    {/* Status */}
+                                    <div className="text-center">
+                                        <span
+                                            className={`px-2 py-1 rounded-md text-xs font-medium
+                                            ${task.status === "Done"
+                                                    ? "bg-green-100 text-green-700"
+                                                    : task.status === "In Progress"
+                                                        ? "bg-blue-100 text-blue-700"
+                                                        : "bg-gray-100 text-gray-700"
+                                                }`}
+                                        >
+                                            {task.status}
+                                        </span>
+                                    </div>
 
-                            {/* Priority */}
-                            <div className="text-center">
-                                <span
-                                    className={`px-2 py-1 rounded-md text-xs font-medium
-                                    ${task.priority === "High"
-                                            ? "bg-red-100 text-red-700"
-                                            : task.priority === "Medium"
-                                                ? "bg-yellow-100 text-yellow-700"
-                                                : "bg-gray-100 text-gray-700"
-                                        }`}
-                                >
-                                    {task.priority}
-                                </span>
-                            </div>
+                                    {/* Priority */}
+                                    <div className="text-center">
+                                        <span
+                                            className={`px-2 py-1 rounded-md text-xs font-medium
+                                            ${task.priority === "High"
+                                                    ? "bg-red-100 text-red-700"
+                                                    : task.priority === "Medium"
+                                                        ? "bg-yellow-100 text-yellow-700"
+                                                        : "bg-gray-100 text-gray-700"
+                                                }`}
+                                        >
+                                            {task.priority}
+                                        </span>
+                                    </div>
 
-                            <div className="text-center">{task.dueDate}</div>
+                                    <div className="text-center">{task.dueDate}</div>
 
-                            <div className="flex justify-center">
-                                <div className="h-7 w-7 rounded-full bg-blue-500 text-white flex items-center justify-center text-xs font-semibold">
-                                    {task.assignee}
+                                    <div className="flex justify-center">
+                                        <div className="h-7 w-7 rounded-full bg-blue-500 text-white flex items-center justify-center text-xs font-semibold">
+                                            {task.assignee}
+                                        </div>
+                                    </div>
+
                                 </div>
-                            </div>
-
-                        </div>
+                            }
+                            title="Edit Task"
+                        >
+                            <TaskForm initialData={task} />
+                        </Modal>
                     ))}
                 </div>
 

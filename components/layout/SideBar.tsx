@@ -21,6 +21,9 @@ export default function SideBar() {
                 <Link className="px-3 py-2 text-gray-600 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors font-medium text-sm flex items-center gap-3" href="/tasks">
                     Tasks
                 </Link>
+                <Link className="px-3 py-2 text-gray-600 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors font-medium text-sm flex items-center gap-3" href="/tasks">
+                    People
+                </Link>
                 <Link className="px-3 py-2 text-gray-600 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors font-medium text-sm flex items-center gap-3" href="/settings">
                     Settings
                 </Link>
