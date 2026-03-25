@@ -4,6 +4,7 @@ import React from "react";
 import Modal from "@/components/ui/Modal";
 import TaskForm from "@/components/task/TaskForm";
 import { Button } from "@/components/ui/button";
+import { CheckCircle2, Circle, Clock, ArrowUp, ArrowRight, ArrowDown, Calendar } from "lucide-react";
 
 export default function TasksPage() {
     const tasks = [
@@ -72,18 +73,55 @@ export default function TasksPage() {
         "Assignee"
     ];
 
+    const getStatusDesign = (status: string) => {
+        switch (status) {
+            case "Done":
+                return { icon: <CheckCircle2 className="w-3.5 h-3.5 mr-1.5" />, classes: "bg-emerald-50 text-emerald-700 border-emerald-200" };
+            case "In Progress":
+                return { icon: <Clock className="w-3.5 h-3.5 mr-1.5" />, classes: "bg-blue-50 text-blue-700 border-blue-200" };
+            case "Todo":
+            default:
+                return { icon: <Circle className="w-3.5 h-3.5 mr-1.5" />, classes: "bg-slate-50 text-slate-700 border-slate-200" };
+        }
+    };
+
+    const getPriorityDesign = (priority: string) => {
+        switch (priority) {
+            case "High":
+                return { icon: <ArrowUp className="w-3.5 h-3.5 mr-1.5 text-red-500" />, classes: "bg-red-50 text-red-700 border-red-200" };
+            case "Medium":
+                return { icon: <ArrowRight className="w-3.5 h-3.5 mr-1.5 text-amber-500" />, classes: "bg-amber-50 text-amber-700 border-amber-200" };
+            case "Low":
+            default:
+                return { icon: <ArrowDown className="w-3.5 h-3.5 mr-1.5 text-slate-500" />, classes: "bg-slate-50 text-slate-700 border-slate-200" };
+        }
+    };
+
+    const getAssigneeColor = (assignee: string) => {
+        const colors = [
+            "bg-blue-100 text-blue-700 border-blue-200",
+            "bg-emerald-100 text-emerald-700 border-emerald-200",
+            "bg-amber-100 text-amber-700 border-amber-200",
+            "bg-purple-100 text-purple-700 border-purple-200",
+            "bg-pink-100 text-pink-700 border-pink-200",
+            "bg-indigo-100 text-indigo-700 border-indigo-200"
+        ];
+        const charCode = assignee.charCodeAt(0) || 0;
+        return colors[charCode % colors.length];
+    };
+
     return (
-        <div className="flex flex-col gap-8 max-w-6xl mx-auto w-full">
+        <div className="flex flex-col gap-8 max-w-6xl mx-auto w-full ">
 
             {/* Header */}
-            <div className="flex justify-between">
+            <div className="flex justify-between items-end">
                 <div>
-                    <h1 className="text-2xl font-bold">Tasks</h1>
-                    <p className="mt-1">Manage and track all your tasks.</p>
+                    <h1 className="text-2xl font-bold tracking-tight text-slate-900">Tasks</h1>
+                    <p className="text-slate-500 mt-1.5">Manage and track all your tasks across projects.</p>
                 </div>
 
                 <Modal
-                    trigger={<Button className="px-4 py-2 bg-blue-600 hover:bg-black text-white rounded-md text-sm transition-colors">New Task</Button>}
+                    trigger={<Button className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-sm font-medium transition-all shadow-sm">New Task</Button>}
                     title="Create Task"
                 >
                     <TaskForm />
@@ -91,75 +129,83 @@ export default function TasksPage() {
             </div>
 
             {/* Table */}
-            <div>
+            <div className="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+                <div className="overflow-x-auto w-full">
+                    <table className="w-full caption-bottom text-sm">
+                        <thead className="[&_tr]:border-b bg-slate-50/50">
+                            <tr className="border-b transition-colors">
+                                {cols.map((value, index) => (
+                                    <th key={index} className="h-12 px-6 text-left align-middle font-medium text-slate-500">
+                                        {value}
+                                    </th>
+                                ))}
+                            </tr>
+                        </thead>
+                        <tbody className="[&_tr:last-child]:border-0 bg-white">
+                            {tasks.map((task) => {
+                                const statusDesign = getStatusDesign(task.status);
+                                const priorityDesign = getPriorityDesign(task.priority);
 
-                {/* Header Row */}
-                <div className="grid grid-cols-6 text-sm font-medium text-gray-600 pb-2">
-                    {cols.map((value, index) => (
-                        <div key={index} className="text-center">
-                            {value}
-                        </div>
-                    ))}
+                                return (
+                                    <Modal
+                                        key={task.id}
+                                        trigger={
+                                            <tr className="border-b transition-colors hover:bg-slate-50/70 cursor-pointer group">
+                                                <td className="p-6 align-middle font-medium text-slate-900 group-hover:text-blue-600 transition-colors">
+                                                    {task.title}
+                                                </td>
+
+                                                <td className="p-6 align-middle text-slate-500">
+                                                    {task.project}
+                                                </td>
+
+                                                {/* Status */}
+                                                <td className="p-6 align-middle">
+                                                    <span
+                                                        className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold border ${statusDesign.classes}`}
+                                                    >
+                                                        {statusDesign.icon}
+                                                        {task.status}
+                                                    </span>
+                                                </td>
+
+                                                {/* Priority */}
+                                                <td className="p-6 align-middle">
+                                                    <span
+                                                        className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold border ${priorityDesign.classes}`}
+                                                    >
+                                                        {priorityDesign.icon}
+                                                        {task.priority}
+                                                    </span>
+                                                </td>
+
+                                                {/* Due Date */}
+                                                <td className="p-6 align-middle text-slate-500 whitespace-nowrap">
+                                                    <div className="flex items-center">
+                                                        <Calendar className="w-4 h-4 mr-2 text-slate-400" />
+                                                        {task.dueDate}
+                                                    </div>
+                                                </td>
+
+                                                {/* Assignee */}
+                                                <td className="p-6 align-middle">
+                                                    <div className="flex">
+                                                        <div className={`h-8 w-8 rounded-full flex items-center justify-center text-xs font-bold border shadow-sm ${getAssigneeColor(task.assignee)}`}>
+                                                            {task.assignee}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                        title="Edit Task"
+                                    >
+                                        <TaskForm initialData={task} />
+                                    </Modal>
+                                );
+                            })}
+                        </tbody>
+                    </table>
                 </div>
-
-                {/* Table Rows */}
-                <div className="space-y-1">
-                    {tasks.map((task) => (
-                        <Modal
-                            key={task.id}
-                            trigger={
-                                <div className="grid grid-cols-6 items-center p-2 rounded-md text-sm hover:bg-gray-100 cursor-pointer transition-transform active:scale-[0.99] w-full text-left">
-                                    <div>{task.title}</div>
-
-                                    <div className="text-center">{task.project}</div>
-
-                                    {/* Status */}
-                                    <div className="text-center">
-                                        <span
-                                            className={`px-2 py-1 rounded-md text-xs font-medium
-                                            ${task.status === "Done"
-                                                    ? "bg-green-100 text-green-700"
-                                                    : task.status === "In Progress"
-                                                        ? "bg-blue-100 text-blue-700"
-                                                        : "bg-gray-100 text-gray-700"
-                                                }`}
-                                        >
-                                            {task.status}
-                                        </span>
-                                    </div>
-
-                                    {/* Priority */}
-                                    <div className="text-center">
-                                        <span
-                                            className={`px-2 py-1 rounded-md text-xs font-medium
-                                            ${task.priority === "High"
-                                                    ? "bg-red-100 text-red-700"
-                                                    : task.priority === "Medium"
-                                                        ? "bg-yellow-100 text-yellow-700"
-                                                        : "bg-gray-100 text-gray-700"
-                                                }`}
-                                        >
-                                            {task.priority}
-                                        </span>
-                                    </div>
-
-                                    <div className="text-center">{task.dueDate}</div>
-
-                                    <div className="flex justify-center">
-                                        <div className="h-7 w-7 rounded-full bg-blue-500 text-white flex items-center justify-center text-xs font-semibold">
-                                            {task.assignee}
-                                        </div>
-                                    </div>
-
-                                </div>
-                            }
-                            title="Edit Task"
-                        >
-                            <TaskForm initialData={task} />
-                        </Modal>
-                    ))}
-                </div>
-
             </div>
         </div>
     );

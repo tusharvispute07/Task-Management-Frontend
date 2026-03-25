@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import Modal from '@/components/ui/Modal';
 import ProjectForm from '@/components/project/ProjectForm';
 import ProjectCard from '@/components/project/ProjectCard';
@@ -73,7 +74,7 @@ export default function ProjectsPage() {
 
                 <Modal
                     trigger={
-                        <Button className="bg-indigo-600 hover:bg-black text-white px-4 py-2 font-medium transition-colors">
+                        <Button className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-sm font-medium transition-all shadow-sm">
                             New Project
                         </Button>
                     }
@@ -86,17 +87,13 @@ export default function ProjectsPage() {
             {/* Grid Container */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {projects.map((project) => (
-                    <Modal
+                    <Link
+                        href={`/projects/${project.id}`}
                         key={project.id}
-                        trigger={
-                            <div className="cursor-pointer h-full transition-transform active:scale-[0.98]">
-                                <ProjectCard project={project} />
-                            </div>
-                        }
-                        title="Edit Project"
+                        className="cursor-pointer h-full transition-transform active:scale-[0.98] block hover:opacity-95"
                     >
-                        <ProjectForm initialData={project} />
-                    </Modal>
+                        <ProjectCard project={project} />
+                    </Link>
                 ))}
             </div>
 
