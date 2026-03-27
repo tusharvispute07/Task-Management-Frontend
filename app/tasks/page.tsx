@@ -3,6 +3,7 @@
 import React from "react";
 import Modal from "@/components/ui/Modal";
 import TaskForm from "@/components/task/TaskForm";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, Circle, Clock, ArrowUp, ArrowRight, ArrowDown, Calendar } from "lucide-react";
 
@@ -147,60 +148,56 @@ export default function TasksPage() {
                                 const priorityDesign = getPriorityDesign(task.priority);
 
                                 return (
-                                    <Modal
+                                    <tr
                                         key={task.id}
-                                        trigger={
-                                            <tr className="border-b transition-colors hover:bg-slate-50/70 cursor-pointer group">
-                                                <td className="p-6 align-middle font-medium text-slate-900 group-hover:text-blue-600 transition-colors">
-                                                    {task.title}
-                                                </td>
-
-                                                <td className="p-6 align-middle text-slate-500">
-                                                    {task.project}
-                                                </td>
-
-                                                {/* Status */}
-                                                <td className="p-6 align-middle">
-                                                    <span
-                                                        className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold border ${statusDesign.classes}`}
-                                                    >
-                                                        {statusDesign.icon}
-                                                        {task.status}
-                                                    </span>
-                                                </td>
-
-                                                {/* Priority */}
-                                                <td className="p-6 align-middle">
-                                                    <span
-                                                        className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold border ${priorityDesign.classes}`}
-                                                    >
-                                                        {priorityDesign.icon}
-                                                        {task.priority}
-                                                    </span>
-                                                </td>
-
-                                                {/* Due Date */}
-                                                <td className="p-6 align-middle text-slate-500 whitespace-nowrap">
-                                                    <div className="flex items-center">
-                                                        <Calendar className="w-4 h-4 mr-2 text-slate-400" />
-                                                        {task.dueDate}
-                                                    </div>
-                                                </td>
-
-                                                {/* Assignee */}
-                                                <td className="p-6 align-middle">
-                                                    <div className="flex">
-                                                        <div className={`h-8 w-8 rounded-full flex items-center justify-center text-xs font-bold border shadow-sm ${getAssigneeColor(task.assignee)}`}>
-                                                            {task.assignee}
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        }
-                                        title="Edit Task"
+                                        className="border-b transition-colors hover:bg-slate-50/70 cursor-pointer group relative"
                                     >
-                                        <TaskForm initialData={task} />
-                                    </Modal>
+                                        <td className="p-6 align-middle font-medium text-slate-900 group-hover:text-blue-600 transition-colors">
+                                            <Link href={`/tasks/${task.id}`} className="absolute inset-0 z-0" />
+                                            <span className="relative z-10">{task.title}</span>
+                                        </td>
+
+                                        <td className="p-6 align-middle text-slate-500">
+                                            {task.project}
+                                        </td>
+
+                                        {/* Status */}
+                                        <td className="p-6 align-middle">
+                                            <span
+                                                className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold border ${statusDesign.classes}`}
+                                            >
+                                                {statusDesign.icon}
+                                                {task.status}
+                                            </span>
+                                        </td>
+
+                                        {/* Priority */}
+                                        <td className="p-6 align-middle">
+                                            <span
+                                                className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold border ${priorityDesign.classes}`}
+                                            >
+                                                {priorityDesign.icon}
+                                                {task.priority}
+                                            </span>
+                                        </td>
+
+                                        {/* Due Date */}
+                                        <td className="p-6 align-middle text-slate-500 whitespace-nowrap">
+                                            <div className="flex items-center">
+                                                <Calendar className="w-4 h-4 mr-2 text-slate-400" />
+                                                {task.dueDate}
+                                            </div>
+                                        </td>
+
+                                        {/* Assignee */}
+                                        <td className="p-6 align-middle">
+                                            <div className="flex">
+                                                <div className={`h-8 w-8 rounded-full flex items-center justify-center text-xs font-bold border shadow-sm ${getAssigneeColor(task.assignee)}`}>
+                                                    {task.assignee}
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
                                 );
                             })}
                         </tbody>

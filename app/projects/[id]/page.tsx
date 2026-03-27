@@ -161,9 +161,13 @@ export default function SingleProject() {
                                         const priorityObj = getPriorityDesign(task.priority);
 
                                         return (
-                                            <tr key={task.id} className="border-b transition-colors hover:bg-slate-50/70 cursor-pointer group">
+                                            <tr
+                                                key={task.id}
+                                                className="border-b transition-colors hover:bg-slate-50/70 cursor-pointer group relative"
+                                            >
                                                 <td className="p-6 align-middle font-medium text-slate-900 group-hover:text-blue-600 transition-colors">
-                                                    {task.title}
+                                                    <Link href={`/tasks/${task.id}`} className="absolute inset-0 z-0" />
+                                                    <span className="relative z-10">{task.title}</span>
                                                 </td>
                                                 <td className="p-6 align-middle">
                                                     <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold border whitespace-nowrap ${statusObj.classes}`}>
