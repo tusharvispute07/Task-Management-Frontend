@@ -4,7 +4,7 @@ export default function NavBar() {
     return (
         <header className="flex h-full w-full items-center justify-between px-6">
             <div className="flex items-center">
-                <h2 className="text-lg font-semibold text-gray-800 tracking-tight">Overview</h2>
+                <h2 className="text-lg font-semibold text-gray-800 tracking-tight">WorkBase</h2>
             </div>
             <div className="flex items-center gap-4">
                 <button className="text-gray-400 hover:text-gray-600 transition-colors">
