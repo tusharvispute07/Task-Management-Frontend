@@ -1,3 +1,4 @@
+'use client';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select";
 import DatePicker from "../ui/date-picker";
 import { Button } from "../ui/button";

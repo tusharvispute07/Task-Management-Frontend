@@ -5,6 +5,8 @@ import {
     ChevronRight, PenLine, FolderClosed, MessageSquare, Paperclip
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import Modal from '@/components/ui/Modal';
+import TaskForm from '@/components/task/TaskForm';
 
 export default function SingleTask() {
     // Dummy Data
@@ -102,9 +104,15 @@ export default function SingleTask() {
 
                     {/* Actions */}
                     <div className="flex items-center gap-3 shrink-0">
-                        <Button variant="outline" className="text-slate-700 border-slate-300 hover:bg-slate-50">
-                            <PenLine className="w-4 h-4 mr-2" /> Edit
-                        </Button>
+                        <Modal
+                            trigger={<Button variant="outline" className="text-slate-700 border-slate-300 hover:bg-slate-50">
+                                <PenLine className="w-4 h-4 mr-2" /> Edit
+                            </Button>}
+                            title='Edit Task'
+                        >
+                            <TaskForm />
+                        </Modal>
+
                         <Button className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-sm font-medium transition-all shadow-sm">
                             <CheckCircle2 className="w-4 h-4 mr-2" /> Complete Task
                         </Button>
